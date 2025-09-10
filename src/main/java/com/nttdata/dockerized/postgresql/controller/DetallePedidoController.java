@@ -9,6 +9,7 @@ import com.nttdata.dockerized.postgresql.model.entity.Producto;
 import com.nttdata.dockerized.postgresql.service.DetallePedidoService;
 import com.nttdata.dockerized.postgresql.service.PedidoService;
 import com.nttdata.dockerized.postgresql.service.ProductoService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +46,9 @@ public class DetallePedidoController {
     }
 
     @PostMapping
-    public ResponseEntity<DetallePedidoDto> saveDetail(@RequestBody DetallePedidoRequestDto detallePedidoRequestDto) {
+    public ResponseEntity<DetallePedidoDto> saveDetail(
+            @RequestBody @Valid DetallePedidoRequestDto detallePedidoRequestDto
+    ) {
         Pedido pedido = pedidoService.findById(detallePedidoRequestDto.orderId());
         Producto producto = productoService.findById(detallePedidoRequestDto.idProduct());
         DetallePedido detallePedido = orderDetailsMapper.toDetallePedidoRequest(detallePedidoRequestDto);
@@ -61,7 +64,7 @@ public class DetallePedidoController {
     @PutMapping("/{id}")
     public ResponseEntity<DetallePedidoDto> updateDetail(
             @PathVariable Integer id,
-            @RequestBody DetallePedidoRequestDto detallePedidoRequestDto
+            @RequestBody @Valid DetallePedidoRequestDto detallePedidoRequestDto
     ) {
 
         Pedido pedido = pedidoService.findById(detallePedidoRequestDto.orderId());

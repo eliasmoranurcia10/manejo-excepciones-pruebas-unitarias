@@ -7,6 +7,7 @@ import com.nttdata.dockerized.postgresql.model.entity.Categoria;
 import com.nttdata.dockerized.postgresql.model.entity.Producto;
 import com.nttdata.dockerized.postgresql.service.CategoriaService;
 import com.nttdata.dockerized.postgresql.service.ProductoService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +45,7 @@ public class ProductoController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDto> saveProduct(@RequestBody ProductSaveDto productSaveDto) {
+    public ResponseEntity<ProductDto> saveProduct(@RequestBody @Valid ProductSaveDto productSaveDto) {
         Categoria categoria = categoriaService.findById( productSaveDto.categoryId() );
         Producto producto = productMapper.toProducto(productSaveDto);
         if( producto == null || categoria == null) return ResponseEntity.notFound().build();
@@ -54,7 +55,7 @@ public class ProductoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable Integer id, @RequestBody ProductSaveDto productSaveDto) {
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable Integer id, @RequestBody @Valid ProductSaveDto productSaveDto) {
         Producto producto = productoService.findById(id);
         Categoria categoria = categoriaService.findById(productSaveDto.categoryId());
         if( producto == null || categoria == null) return ResponseEntity.notFound().build();

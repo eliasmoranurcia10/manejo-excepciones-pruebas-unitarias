@@ -7,6 +7,7 @@ import com.nttdata.dockerized.postgresql.model.entity.Pedido;
 import com.nttdata.dockerized.postgresql.model.entity.User;
 import com.nttdata.dockerized.postgresql.service.PedidoService;
 import com.nttdata.dockerized.postgresql.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +42,7 @@ public class PedidoController {
     }
 
     @PostMapping
-    public ResponseEntity<PedidoDto> savePedido(@RequestBody PedidoRequestDto pedidoRequestDto) {
+    public ResponseEntity<PedidoDto> savePedido(@RequestBody @Valid PedidoRequestDto pedidoRequestDto) {
         User user = userService.findById(pedidoRequestDto.userId());
         Pedido pedido = orderMapper.toPedidoRequest(pedidoRequestDto);
         if(user == null || pedido == null ) return ResponseEntity.notFound().build();
@@ -55,7 +56,7 @@ public class PedidoController {
     @PutMapping("/{id}")
     public ResponseEntity<PedidoDto> updatePedido(
             @PathVariable Integer id,
-            @RequestBody PedidoRequestDto pedidoRequestDto
+            @RequestBody @Valid PedidoRequestDto pedidoRequestDto
     ){
         User user = userService.findById(pedidoRequestDto.userId());
         Pedido pedido = pedidoService.findById(id);
