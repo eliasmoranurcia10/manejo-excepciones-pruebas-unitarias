@@ -5,29 +5,25 @@ import com.nttdata.dockerized.postgresql.model.dto.user.UserSaveRequestDto;
 import com.nttdata.dockerized.postgresql.model.dto.user.UserSaveResponseDto;
 import com.nttdata.dockerized.postgresql.model.dto.user.UserUpdateDto;
 import com.nttdata.dockerized.postgresql.model.entity.User;
-import org.mapstruct.AfterMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.*;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
-
     @Mapping(target = "userId", source = "idUser")
     @Mapping(target = "status", source = "active")
-    UserDto map(User user);
-    List<UserDto> map(List<User> users);
+    UserDto toUserDto(User user);
+    List<UserDto> toUsersDto(List<User> users);
 
+    @InheritInverseConfiguration
+    User toUser(UserDto userDto);
 
     @Mapping(target = "idUser", ignore = true)
     @Mapping(target = "active", ignore = true)
     @Mapping(target = "pedidos", ignore = true)
-    User toEntity(UserSaveRequestDto userSaveRequestDto);
+    User toUserSaveRequest(UserSaveRequestDto userSaveRequestDto);
 
     @Mapping(target = "userId", source = "idUser")
     UserSaveResponseDto toUserSaveResponseDto(User user);

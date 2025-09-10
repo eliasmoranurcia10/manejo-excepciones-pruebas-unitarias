@@ -1,76 +1,48 @@
 package com.nttdata.dockerized.postgresql.controller;
 
-import com.nttdata.dockerized.postgresql.mapper.OrderMapper;
 import com.nttdata.dockerized.postgresql.model.dto.pedido.PedidoDto;
 import com.nttdata.dockerized.postgresql.model.dto.pedido.PedidoRequestDto;
-import com.nttdata.dockerized.postgresql.model.entity.Pedido;
-import com.nttdata.dockerized.postgresql.model.entity.User;
 import com.nttdata.dockerized.postgresql.service.PedidoService;
-import com.nttdata.dockerized.postgresql.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
 @RequestMapping("/api/orders")
 public class PedidoController {
     private final PedidoService pedidoService;
-    private final UserService userService;
-    private final OrderMapper orderMapper;
 
-    public PedidoController(PedidoService pedidoService, UserService userService, OrderMapper orderMapper) {
+    public PedidoController(PedidoService pedidoService) {
         this.pedidoService = pedidoService;
-        this.userService = userService;
-        this.orderMapper = orderMapper;
     }
 
     @GetMapping
-    public ResponseEntity<List<PedidoDto>> getAllPedidos() {
-        return ResponseEntity.ok( orderMapper.toPedidosDto( pedidoService.listAll() ) );
+    public List<PedidoDto> getAllPedidos() {
+        return pedidoService.listAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PedidoDto> getPedidoById(@PathVariable Integer id) {
-        return Optional.ofNullable( pedidoService.findById(id) )
-                .map( pedido -> ResponseEntity.ok( orderMapper.toPedidoDto( pedido )) )
-                .orElse(ResponseEntity.notFound().build());
+    public PedidoDto getPedidoById(@PathVariable Integer id) {
+        return pedidoService.findById(id);
     }
 
     @PostMapping
-    public ResponseEntity<PedidoDto> savePedido(@RequestBody @Valid PedidoRequestDto pedidoRequestDto) {
-        User user = userService.findById(pedidoRequestDto.userId());
-        Pedido pedido = orderMapper.toPedidoRequest(pedidoRequestDto);
-        if(user == null || pedido == null ) return ResponseEntity.notFound().build();
-        pedido.setUsuario(user);
-        return new ResponseEntity<>(
-                orderMapper.toPedidoDto( pedidoService.save(pedido) ),
-                HttpStatus.CREATED
-        );
+    public PedidoDto savePedido(@RequestBody @Valid PedidoRequestDto pedidoRequestDto) {
+        return pedidoService.save(pedidoRequestDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PedidoDto> updatePedido(
+    public PedidoDto updatePedido(
             @PathVariable Integer id,
             @RequestBody @Valid PedidoRequestDto pedidoRequestDto
     ){
-        User user = userService.findById(pedidoRequestDto.userId());
-        Pedido pedido = pedidoService.findById(id);
-        if(pedido == null || user == null) return ResponseEntity.notFound().build();
-
-        pedido.setUsuario(user);
-        orderMapper.updatePedidoFromDto(pedidoRequestDto, pedido);
-        return ResponseEntity.ok(orderMapper.toPedidoDto( pedidoService.save(pedido) ));
+        return pedidoService.update(id, pedidoRequestDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePedido(@PathVariable Integer id) {
-        if(pedidoService.findById(id) == null ) return ResponseEntity.notFound().build();
+    public void deletePedido(@PathVariable Integer id) {
         pedidoService.delete(id);
-        return ResponseEntity.noContent().build();
     }
 }

@@ -1,15 +1,18 @@
 package com.nttdata.dockerized.postgresql.service;
 
-import com.nttdata.dockerized.postgresql.model.entity.Categoria;
+import com.nttdata.dockerized.postgresql.model.dto.category.CategoryDto;
+import com.nttdata.dockerized.postgresql.model.dto.category.CategoryRequestDto;
 
 import java.util.List;
 
 public interface CategoriaService {
-    List<Categoria> listAll();
+    List<CategoryDto> listAll();
 
-    Categoria findById(Integer idCategoria);
+    CategoryDto findById(Integer id);
 
-    Categoria save(Categoria categoria);
+    CategoryDto save(CategoryRequestDto categoryRequestDto);
 
-    void delete(Integer idCategoria);
+    CategoryDto update(Integer id, CategoryRequestDto categoryRequestDto);
+
+    void delete(Integer id);
 }

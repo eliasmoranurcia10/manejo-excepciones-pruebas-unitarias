@@ -19,6 +19,7 @@ public record DetallePedidoRequestDto(
         Integer purchaseQuantity,
         @NotNull(message = "El valor del precio no debe ser vacío")
         @Digits(integer = 100, fraction = 2, message = "El precio unitario debe tener al menos 2 decimales permitidos")
+        @Positive(message = "El precio unitario debe ser un número positivo")
         BigDecimal unitPrice
 ) {
 }

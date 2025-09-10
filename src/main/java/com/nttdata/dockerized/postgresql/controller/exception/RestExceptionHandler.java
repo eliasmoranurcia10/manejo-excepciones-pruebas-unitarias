@@ -16,7 +16,7 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Error> handleExceptionNotExists(ResourceNotFoundException ex){
-        Error error = new Error("already-exists", ex.getMessage());
+        Error error = new Error("not-exists", ex.getMessage());
         return ResponseEntity.badRequest().body(error);
     }
 

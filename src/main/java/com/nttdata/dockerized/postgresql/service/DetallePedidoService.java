@@ -1,16 +1,17 @@
 package com.nttdata.dockerized.postgresql.service;
 
-import com.nttdata.dockerized.postgresql.model.entity.DetallePedido;
-import org.springframework.stereotype.Service;
+import com.nttdata.dockerized.postgresql.model.dto.detallepedido.DetallePedidoDto;
+import com.nttdata.dockerized.postgresql.model.dto.detallepedido.DetallePedidoRequestDto;
 
 import java.util.List;
 
 
 public interface DetallePedidoService {
 
-    List<DetallePedido> listAll();
-    DetallePedido findById(Integer idDetallePedido);
-    DetallePedido save(DetallePedido detallePedido);
-    void delete(Integer idDetallePedido);
+    List<DetallePedidoDto> listAll();
+    DetallePedidoDto findById(Integer id);
+    DetallePedidoDto save(DetallePedidoRequestDto detallePedidoRequestDto);
+    DetallePedidoDto update(Integer id, DetallePedidoRequestDto detallePedidoRequestDto);
+    void delete(Integer id);
 
 }
