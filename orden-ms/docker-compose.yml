@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  java_app_orden_ms:
+    container_name: java_app_orden_ms
+    image: java-app-orden-ms:1.0.0
+    build: .
+    ports:
+      - "8091:8085"
+    environment:
+      - DATABASE_URL=jdbc:postgresql://java_db_orden_ms:5432/ordendb
+      - DATABASE_USERNAME=eliasmoran
+      - DATABASE_PASSWORD=root
+    depends_on:
+      - java_db_orden_ms
+
+  java_db_orden_ms:
+    container_name: java_db_orden_ms
+    image: postgres:latest
+    ports:
+      - "5441:5432"
+    environment:
+      POSTGRES_USER: eliasmoran
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: ordendb
+    volumes:
+      - database:/var/lib/postgresql/data
+
+  pgadmin-orden-ms:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "89:80"
+    depends_on:
+      - java_db_orden_ms
+
+volumes:
+  database:
