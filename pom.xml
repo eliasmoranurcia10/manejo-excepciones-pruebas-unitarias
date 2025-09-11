@@ -11,6 +11,7 @@
     <groupId>com.nttdata</groupId>
     <artifactId>dockerized.postgresql</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>dockerized.postgresql</name>
     <description>Demo project for Spring Boot API rest connected to a postgresql database</description>
     <url/>
@@ -20,6 +21,10 @@
     <developers>
         <developer/>
     </developers>
+    <modules>
+        <module>orden-ms</module>
+        <module>products-ms</module>
+    </modules>
     <scm>
         <connection/>
         <developerConnection/>
