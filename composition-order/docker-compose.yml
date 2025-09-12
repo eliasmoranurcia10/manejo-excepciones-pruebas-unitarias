@@ -1,0 +1,56 @@
+version: "3.9"
+services:
+  java_app_composition_order:
+    container_name: java_app_composition_order
+    image: java-app-composition-order:1.0.0
+    build: .
+    ports:
+      - "8097:8089"
+    environment:
+      - DATABASE_URL=jdbc:postgresql://java_db_composition_order:5432/compositionorderdb
+      - DATABASE_USERNAME=elias
+      - DATABASE_PASSWORD=root
+      - ORDER_MS_URL=http://java_app_orden_ms:8085/api/orders
+    depends_on:
+      - java_db_composition_order
+    networks:
+      - order-net
+      - composition-net
+
+  java_db_composition_order:
+    container_name: java_db_composition_order
+    image: postgres:latest
+    ports:
+      - "5449:5432"
+    environment:
+      POSTGRES_USER: elias
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: compositionorderdb
+    volumes:
+      - database:/var/lib/postgresql/data
+    networks:
+      - composition-net
+
+  pgadmin-composition-order:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "79:80"
+    depends_on:
+      - java_db_composition_order
+    networks:
+      - composition-net
+
+volumes:
+  database:
+
+networks:
+  # Red externa
+  order-net:
+    external: true
+    name: orden-ms_default
+  # Red propia del consumidor
+  composition-net:
+    driver: bridge
