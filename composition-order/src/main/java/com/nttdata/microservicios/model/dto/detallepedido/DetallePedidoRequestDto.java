@@ -10,7 +10,7 @@ public record DetallePedidoRequestDto(
         @NotNull(message = "Ingresar número de orden")
         Integer orderId,
         @NotNull(message = "Ingresar número de producto")
-        Integer idProduct,
+        Integer productId,
         @NotNull(message = "Ingresar cantidad de compra")
         @Positive(message = "La cantidad de compra debe ser un número positivo")
         Integer purchaseQuantity,

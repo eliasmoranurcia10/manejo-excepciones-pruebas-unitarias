@@ -28,7 +28,4 @@ public class Pedido {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user")
     private User usuario;
-
-    @OneToMany(mappedBy = "pedido")
-    private List<DetallePedido> detallesPedido;
 }

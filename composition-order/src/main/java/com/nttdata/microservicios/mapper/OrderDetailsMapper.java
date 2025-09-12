@@ -7,11 +7,11 @@ import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {OrderMapper.class})
+@Mapper(componentModel = "spring")
 public interface OrderDetailsMapper {
 
     @Mapping(target = "orderDetailId", source = "idDetallePedido")
-    @Mapping(target = "order", source = "pedido")
+    @Mapping(target = "orderId", source = "pedidoId")
     @Mapping(target = "productId", source = "productoId")
     @Mapping(target = "purchaseQuantity", source = "cantidadCompra")
     @Mapping(target = "unitPrice", source = "precioUnitario")
@@ -22,8 +22,8 @@ public interface OrderDetailsMapper {
     DetallePedido toDetallePedido(DetallePedidoDto detallePedidoDto);
 
     @Mapping(target = "idDetallePedido", ignore = true)
-    @Mapping(target = "pedido.idPedido", source = "orderId")
-    @Mapping(target = "productoId", source = "idProduct")
+    @Mapping(target = "pedidoId", source = "orderId")
+    @Mapping(target = "productoId", source = "productId")
     @Mapping(target = "cantidadCompra", source = "purchaseQuantity")
     @Mapping(target = "precioUnitario", source = "unitPrice")
     DetallePedido toDetallePedidoRequest(DetallePedidoRequestDto detallePedidoRequestDto);

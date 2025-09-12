@@ -2,21 +2,29 @@ package com.nttdata.microservicios.controller;
 
 import com.nttdata.microservicios.model.dto.detallepedido.DetallePedidoDto;
 import com.nttdata.microservicios.model.dto.detallepedido.DetallePedidoRequestDto;
+import com.nttdata.microservicios.model.dto.pedido.PedidoDto;
+import com.nttdata.microservicios.service.CompositionOrderService;
 import com.nttdata.microservicios.service.DetallePedidoService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/details")
 public class DetallePedidoController {
 
     private final DetallePedidoService detallePedidoService;
+    private final CompositionOrderService compositionOrderService;
 
-    public DetallePedidoController(DetallePedidoService detallePedidoService) {
+    public DetallePedidoController(DetallePedidoService detallePedidoService, CompositionOrderService compositionOrderService) {
         this.detallePedidoService = detallePedidoService;
+        this.compositionOrderService = compositionOrderService;
+    }
+
+    @GetMapping("/order/{id}")
+    public PedidoDto getOrder(@PathVariable Integer id) {
+        return compositionOrderService.obtenerPedido(id);
     }
 
     @GetMapping

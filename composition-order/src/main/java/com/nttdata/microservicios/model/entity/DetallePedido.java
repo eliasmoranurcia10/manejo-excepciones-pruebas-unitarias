@@ -17,9 +17,8 @@ public class DetallePedido {
     @Column(name = "id_detalle_pedido")
     private Integer idDetallePedido;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_pedido")
-    private Pedido pedido;
+    @Column(name = "id_pedido")
+    private Integer pedidoId;
 
     @Column(name = "id_producto")
     private Integer productoId;
