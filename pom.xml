@@ -25,6 +25,7 @@
         <module>orden-ms</module>
         <module>products-ms</module>
         <module>composition-order</module>
+        <module>eureka-server</module>
     </modules>
     <scm>
         <connection/>
