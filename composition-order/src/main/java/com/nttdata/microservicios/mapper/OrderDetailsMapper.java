@@ -2,6 +2,7 @@ package com.nttdata.microservicios.mapper;
 
 import com.nttdata.microservicios.model.dto.detallepedido.DetallePedidoDto;
 import com.nttdata.microservicios.model.dto.detallepedido.DetallePedidoRequestDto;
+import com.nttdata.microservicios.model.dto.detallepedido.DetallePedidoResponseDto;
 import com.nttdata.microservicios.model.entity.DetallePedido;
 import org.mapstruct.*;
 
@@ -30,4 +31,12 @@ public interface OrderDetailsMapper {
 
     @InheritConfiguration(name = "toDetallePedidoRequest")
     void updateDetallePedidoFromDto(DetallePedidoRequestDto detallePedidoRequestDto,@MappingTarget DetallePedido detallePedido);
+
+
+    @Mapping(target = "pedidoDto", ignore = true)
+    @Mapping(target = "productDto", ignore = true)
+    @Mapping(target = "purchaseQuantity", source = "cantidadCompra")
+    @Mapping(target = "unitPrice", source = "precioUnitario")
+    DetallePedidoResponseDto toDetallePedidoResponseDto(DetallePedido detallePedido);
+    List<DetallePedidoResponseDto> toDetallesPedidosResponseDto(List<DetallePedido> detallePedidos);
 }

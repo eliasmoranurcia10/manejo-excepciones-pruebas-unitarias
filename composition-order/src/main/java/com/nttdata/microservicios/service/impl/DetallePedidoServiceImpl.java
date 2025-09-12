@@ -6,29 +6,53 @@ import com.nttdata.microservicios.exception.ResourceNotFoundException;
 import com.nttdata.microservicios.mapper.OrderDetailsMapper;
 import com.nttdata.microservicios.model.dto.detallepedido.DetallePedidoDto;
 import com.nttdata.microservicios.model.dto.detallepedido.DetallePedidoRequestDto;
+import com.nttdata.microservicios.model.dto.detallepedido.DetallePedidoResponseDto;
+import com.nttdata.microservicios.model.dto.pedido.PedidoDto;
+import com.nttdata.microservicios.model.dto.product.ProductDto;
 import com.nttdata.microservicios.model.entity.DetallePedido;
 import com.nttdata.microservicios.repository.DetallePedidoRepository;
+import com.nttdata.microservicios.service.CompositionOrderService;
+import com.nttdata.microservicios.service.CompositionProductService;
 import com.nttdata.microservicios.service.DetallePedidoService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DetallePedidoServiceImpl implements DetallePedidoService {
 
     private final DetallePedidoRepository detallePedidoRepository;
     private final OrderDetailsMapper orderDetailsMapper;
+    private final CompositionOrderService compositionOrderService;
+    private final CompositionProductService compositionProductService;
 
-    public DetallePedidoServiceImpl(DetallePedidoRepository detallePedidoRepository, OrderDetailsMapper orderDetailsMapper) {
+    public DetallePedidoServiceImpl(DetallePedidoRepository detallePedidoRepository, OrderDetailsMapper orderDetailsMapper, CompositionOrderService compositionOrderService, CompositionProductService compositionProductService) {
         this.detallePedidoRepository = detallePedidoRepository;
         this.orderDetailsMapper = orderDetailsMapper;
+        this.compositionOrderService = compositionOrderService;
+        this.compositionProductService = compositionProductService;
     }
 
     @Override
-    public List<DetallePedidoDto> listAll() {
+    public List<DetallePedidoResponseDto> listAll() {
         List<DetallePedido> detallesPedido = detallePedidoRepository.findAll();
-        return orderDetailsMapper.toDetallesPedidoDto(detallesPedido);
+        //return orderDetailsMapper.toDetallesPedidoDto(detallesPedido);
+        return detallesPedido.stream()
+            .map(detallePedido -> {
+                //DetallePedidoResponseDto detailDto = orderDetailsMapper.toDetallePedidoResponseDto(detallePedido);
+                PedidoDto pedidoDto = compositionOrderService.obtenerPedido(detallePedido.getPedidoId());
+                ProductDto productDto = compositionProductService.getProduct(detallePedido.getProductoId());
+
+                return new DetallePedidoResponseDto(
+                        pedidoDto,
+                        productDto,
+                        detallePedido.getCantidadCompra(),
+                        detallePedido.getPrecioUnitario()
+                );
+
+        }).collect(Collectors.toList());
     }
 
     @Override

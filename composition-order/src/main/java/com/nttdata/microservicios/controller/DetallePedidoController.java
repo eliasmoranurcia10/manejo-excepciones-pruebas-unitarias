@@ -2,6 +2,7 @@ package com.nttdata.microservicios.controller;
 
 import com.nttdata.microservicios.model.dto.detallepedido.DetallePedidoDto;
 import com.nttdata.microservicios.model.dto.detallepedido.DetallePedidoRequestDto;
+import com.nttdata.microservicios.model.dto.detallepedido.DetallePedidoResponseDto;
 import com.nttdata.microservicios.model.dto.pedido.PedidoDto;
 import com.nttdata.microservicios.model.dto.pedido.PedidoRequestDto;
 import com.nttdata.microservicios.service.CompositionOrderService;
@@ -22,7 +23,7 @@ public class DetallePedidoController {
     }
 
     @GetMapping
-    public List<DetallePedidoDto> getAllDetails() {
+    public List<DetallePedidoResponseDto> getAllDetails() {
         return detallePedidoService.listAll();
     }
 
