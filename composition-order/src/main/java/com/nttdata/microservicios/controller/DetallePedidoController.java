@@ -3,6 +3,7 @@ package com.nttdata.microservicios.controller;
 import com.nttdata.microservicios.model.dto.detallepedido.DetallePedidoDto;
 import com.nttdata.microservicios.model.dto.detallepedido.DetallePedidoRequestDto;
 import com.nttdata.microservicios.model.dto.pedido.PedidoDto;
+import com.nttdata.microservicios.model.dto.pedido.PedidoRequestDto;
 import com.nttdata.microservicios.service.CompositionOrderService;
 import com.nttdata.microservicios.service.DetallePedidoService;
 import jakarta.validation.Valid;
@@ -25,6 +26,11 @@ public class DetallePedidoController {
     @GetMapping("/order/{id}")
     public PedidoDto getOrder(@PathVariable Integer id) {
         return compositionOrderService.obtenerPedido(id);
+    }
+
+    @PostMapping("/order")
+    public PedidoDto saveOrder(@RequestBody PedidoRequestDto pedidoRequestDto) {
+        return compositionOrderService.savePedido(pedidoRequestDto);
     }
 
     @GetMapping

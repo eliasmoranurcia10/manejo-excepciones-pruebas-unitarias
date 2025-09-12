@@ -2,6 +2,7 @@ package com.nttdata.microservicios.service.impl;
 
 import com.nttdata.microservicios.feign.OrderFeignClient;
 import com.nttdata.microservicios.model.dto.pedido.PedidoDto;
+import com.nttdata.microservicios.model.dto.pedido.PedidoRequestDto;
 import com.nttdata.microservicios.service.CompositionOrderService;
 import org.springframework.stereotype.Service;
 
@@ -18,4 +19,10 @@ public class CompositionOrderServiceImpl implements CompositionOrderService {
     public PedidoDto obtenerPedido(Integer id) {
         return orderFeignClient.getPedidoById(id);
     }
+
+    @Override
+    public PedidoDto savePedido(PedidoRequestDto pedidoRequestDto) {
+        return orderFeignClient.createPedido(pedidoRequestDto);
+    }
+
 }

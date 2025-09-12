@@ -12,4 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface OrderFeignClient {
     @GetMapping("/{id}")
     PedidoDto getPedidoById(@PathVariable("id") Integer id);
+
+    @PostMapping
+    PedidoDto createPedido(@RequestBody PedidoRequestDto request);
 }
