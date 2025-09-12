@@ -23,7 +23,7 @@ public interface ProductMapper {
     @Mapping(target = "nombre", source = "name")
     @Mapping(target = "precioVenta", source = "salePrice")
     @Mapping(target = "cantidadStock", source = "quantityStock")
-    @Mapping(target = "categoria.idCategoria", source = "categoryId")
+    @Mapping(target = "categoria", ignore = true)
     Producto toProducto(ProductSaveDto productSaveDto);
 
     @InheritConfiguration(name = "toProducto")

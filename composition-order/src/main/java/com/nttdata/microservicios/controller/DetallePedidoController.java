@@ -16,21 +16,9 @@ import java.util.List;
 public class DetallePedidoController {
 
     private final DetallePedidoService detallePedidoService;
-    private final CompositionOrderService compositionOrderService;
 
-    public DetallePedidoController(DetallePedidoService detallePedidoService, CompositionOrderService compositionOrderService) {
+    public DetallePedidoController(DetallePedidoService detallePedidoService) {
         this.detallePedidoService = detallePedidoService;
-        this.compositionOrderService = compositionOrderService;
-    }
-
-    @GetMapping("/order/{id}")
-    public PedidoDto getOrder(@PathVariable Integer id) {
-        return compositionOrderService.obtenerPedido(id);
-    }
-
-    @PostMapping("/order")
-    public PedidoDto saveOrder(@RequestBody PedidoRequestDto pedidoRequestDto) {
-        return compositionOrderService.savePedido(pedidoRequestDto);
     }
 
     @GetMapping

@@ -6,6 +6,8 @@ import com.nttdata.microservicios.model.dto.pedido.PedidoRequestDto;
 import com.nttdata.microservicios.service.CompositionOrderService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CompositionOrderServiceImpl implements CompositionOrderService {
 
@@ -13,6 +15,11 @@ public class CompositionOrderServiceImpl implements CompositionOrderService {
 
     public CompositionOrderServiceImpl(OrderFeignClient orderFeignClient) {
         this.orderFeignClient = orderFeignClient;
+    }
+
+    @Override
+    public List<PedidoDto> listPedidos() {
+        return orderFeignClient.getPedidos();
     }
 
     @Override
@@ -24,5 +31,16 @@ public class CompositionOrderServiceImpl implements CompositionOrderService {
     public PedidoDto savePedido(PedidoRequestDto pedidoRequestDto) {
         return orderFeignClient.createPedido(pedidoRequestDto);
     }
+
+    @Override
+    public PedidoDto updatePedido(Integer id, PedidoRequestDto pedidoRequestDto) {
+        return orderFeignClient.updatePedido(id,pedidoRequestDto);
+    }
+
+    @Override
+    public void deletePedido(Integer id) {
+        orderFeignClient.deletePedido(id);
+    }
+
 
 }

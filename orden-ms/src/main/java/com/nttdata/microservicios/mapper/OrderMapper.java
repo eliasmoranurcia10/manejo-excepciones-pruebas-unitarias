@@ -20,10 +20,12 @@ public interface OrderMapper {
     @InheritInverseConfiguration
     Pedido toPedido(PedidoDto pedidoDto);
 
+
     @Mapping(target = "idPedido", ignore = true)
     @Mapping(target = "fechaPedido", source = "orderDate")
     @Mapping(target = "estado", source = "status")
-    @Mapping(target = "usuario.idUser", source = "userId")
+    @Mapping(target = "usuario", ignore = true)
+    //@Mapping(target = "usuario.idUser", source = "userId")
     Pedido toPedidoRequest(PedidoRequestDto pedidoRequestDto);
 
     @InheritConfiguration(name = "toPedidoRequest")
