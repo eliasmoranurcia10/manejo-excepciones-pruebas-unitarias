@@ -8,27 +8,27 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-@FeignClient(name = "products-ms", url = "${products.service.url}")
+@FeignClient(name = "products-ms")
 public interface ProductFeignClient {
 
-    @GetMapping
+    @GetMapping("/api/products")
     List<ProductDto> getProducts();
 
-    @GetMapping("/{id}")
+    @GetMapping("/api/products/{id}")
     ProductDto getProductById(@PathVariable Integer id);
 
-    @GetMapping("/search")
+    @GetMapping("/api/products/search")
     List<ProductDto> getProductsByNameCategory(@RequestParam String nameCategory);
 
-    @GetMapping("/range")
+    @GetMapping("/api/products/range")
     List<ProductDto> getProductsByRange(@RequestParam BigDecimal minPrice, @RequestParam BigDecimal maxPrice);
 
-    @PostMapping
+    @PostMapping("/api/products")
     ProductDto saveProduct(@RequestBody ProductSaveDto productSaveDto);
 
-    @PutMapping("/{id}")
+    @PutMapping("/api/products/{id}")
     ProductDto updateProduct(@PathVariable Integer id, @RequestBody ProductSaveDto productSaveDto);
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/products/{id}")
     void deleteProduct(@PathVariable Integer id);
 }

@@ -7,21 +7,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "orden-ms", url = "${orden.service.url}")
+@FeignClient(name = "orden-ms")
 public interface OrderFeignClient {
 
-    @GetMapping
+    @GetMapping("/api/orders")
     List<PedidoDto> getPedidos();
 
-    @GetMapping("/{id}")
+    @GetMapping("/api/orders/{id}")
     PedidoDto getPedidoById(@PathVariable("id") Integer id);
 
-    @PostMapping
+    @PostMapping("/api/orders")
     PedidoDto createPedido(@RequestBody PedidoRequestDto request);
 
-    @PutMapping("/{id}")
+    @PutMapping("/api/orders/{id}")
     PedidoDto updatePedido(@PathVariable("id") Integer id, @RequestBody PedidoRequestDto requestDto);
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/orders/{id}")
     void deletePedido(@PathVariable("id") Integer id);
 }
